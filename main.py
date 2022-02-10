@@ -5,6 +5,7 @@ import numpy as np
 
 
 class System:
+
     def __init__(self, B0, B1, m, g_factor, alpha0, beta0):
         '''
         Class object simulates a 2-state Quantum System that undergoes a
@@ -58,10 +59,15 @@ class System:
     def wavefunction(self, t, omega):
         fn = np.sqrt(self.__omega1**2)
         fd = np.sqrt((self.__omega-self.__omega0)**2 + self.__omega1**2)
+        alpha = (self.__alpha0 * (np.cos((self.__omega1 * t * fd)/(2 * fn)) - ))
 
         return alpha, beta
 
     def excitation_probabiity(self, omega):
+        '''
+        Calculates the maximum probability of changing the state of the system
+        for a given perturbation frequency omega
+        '''
         # Define resonance factor as fn/fd
         fn = np.sqrt(self.__omega1**2)
         fd = np.sqrt((omega - self.__omega0)**2 + self.__omega1**2)
@@ -69,8 +75,12 @@ class System:
         return (fn/fd) ** 2
 
     def omega_distribution(self):
+        '''
+        Calculates the values of the maximum excitation energy for a set of
+        perturbation frequencies and plots the resonance curve
+        '''
         # Number of stds on either side of the mean
-        dev = 20
+        dev = 10
         # Set distribution parameters
         mu, sigma = self.__omega0, self.__omega1
         # Get array of omega values
@@ -88,6 +98,26 @@ class System:
         plt.ylabel("Maximum Excitation Probability $P_{max}$")
         plt.grid()
         plt.show()
+
+    def measurement(self, N):
+        # Number of stds on either side of the mean
+        dev = 20
+        # Set distribution parameters
+        mu, sigma = self.__omega0, self.__omega1
+        # array to store perturbation frequencies
+        excitation_frequencies = list()
+        while len(excitation_frequencies) < N:
+            # Generate random number
+            p = np.random.uniform(mu - dev * sigma, mu + dev * sigma)
+            q = np.random.uniform(0, 1)
+            # Calculate excitation probability
+            prob = self.excitation_probabiity(p)
+            if q < prob:
+                excitation_frequencies.append(p)
+        # Plot histogram
+        plt.hist(excitation_frequencies, bins=int(2*np.sqrt(N)))
+        plt.show()
+        return excitation_frequencies
 
     def time(self):
         return self.__time

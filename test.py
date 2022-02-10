@@ -9,3 +9,4 @@ beta0 = 0
 
 QBit = System(B0, B1, m, g_factor, alpha0, beta0)
 QBit.omega_distribution()
+data = QBit.measurement(50)

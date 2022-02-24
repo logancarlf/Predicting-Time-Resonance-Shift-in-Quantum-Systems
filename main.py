@@ -59,7 +59,7 @@ class System:
     def wavefunction(self, t, omega):
         fn = np.sqrt(self.__omega1**2)
         fd = np.sqrt((self.__omega-self.__omega0)**2 + self.__omega1**2)
-        alpha = (self.__alpha0 * (np.cos((self.__omega1 * t * fd)/(2 * fn)) - ))
+        alpha = (self.__alpha0 * (np.cos((self.__omega1 * t * fd)/(2 * fn))))
 
         return alpha, beta
 

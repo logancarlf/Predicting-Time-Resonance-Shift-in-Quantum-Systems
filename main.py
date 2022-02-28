@@ -63,7 +63,7 @@ class System:
 
         return alpha, beta
 
-    def excitation_probabiity(self, omega):
+    def excitation_probability(self, omega):
         '''
         Calculates the maximum probability of changing the state of the system
         for a given perturbation frequency omega
@@ -88,16 +88,34 @@ class System:
         # Get values of the max excitation probability
         excite_p = list()
         for omega in omega_array:
-            P_omega = self.excitation_probabiity(omega)
+            P_omega = self.excitation_probability(omega)
             excite_p.append(P_omega)
         # Plot resonance curve
         plt.plot(omega_array, excite_p,color='black')
         plt.title("Resonance Curve")
         # Axis Labels
-        plt.xlabel("Perturbation Frequency $\omega$ / $s^{-1}$")
-        plt.ylabel("Maximum Excitation Probability $P_{max}$")
+        plt.xlabel(r"Perturbation Frequency $\omega$ / $s^{-1}$")
+        plt.ylabel(r"Maximum Excitation Probability $P_{max}$")
         plt.grid()
         plt.show()
+
+    def theoretical(self, N):
+        dev = 10
+        mu, sigma = self.__omega0, self.__omega1
+        self.__grid = np.linspace(mu - dev * sigma, mu + dev * sigma, N)
+        prob = list()
+        for i in self.__grid:
+            p = self.excitation_probability(i)
+            prob.append(p)
+        width = self.__grid[1] - self.__grid[0]
+        plt.plot(self.__grid, prob, ls='steps', color='black',
+                 label=r'Output Nodes $\theta_j$')
+        plt.title("NN Training Distribution")
+        plt.ylabel(r"Posterior Distribution $P(\theta |\mu)$")
+        plt.xlabel(r"Wavelength $\omega_1$")
+        plt.legend()
+        plt.show()
+        return prob
 
     def measurement(self, N):
         # Number of stds on either side of the mean
@@ -111,16 +129,29 @@ class System:
             p = np.random.uniform(mu - dev * sigma, mu + dev * sigma)
             q = np.random.uniform(0, 1)
             # Calculate excitation probability
-            prob = self.excitation_probabiity(p)
+            prob = self.excitation_probability(p)
             if q < prob:
                 excitation_frequencies.append(p)
         # Plot histogram
-        plt.hist(excitation_frequencies, bins=int(2*np.sqrt(N)))
+        plt.hist(excitation_frequencies, bins=31, color='black',
+                 label=r'Input Nodes $\theta_i$')
+        plt.title("Neural Network Input (Measurement)")
+        plt.ylabel(r"Measurement Frequency")
+        plt.xlabel(r"Wavelength $\omega_1$")
+        plt.legend()
         plt.show()
+
         return excitation_frequencies
+
+    def resonance_mean(self):
+        return self.__omega0
+
+    def resonance_std(self):
+        return self.__omega1
 
     def time(self):
         return self.__time
+
 
 
 

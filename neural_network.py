@@ -31,7 +31,25 @@ class Network:
                                         self.no_of_hidden_nodes))
 
     def train(self, input_vector, target_vector):
-        pass  # network training code
+        """
+        input_vector and target_vector can be tuples, lists or ndarrays
+        """
+        # make sure that the vectors have the right shape
+        input_npvector = np.array(input_vector)
+        input_vector = input_vector.reshape(input_npvector.size, 1)
+        target_npvector = np.array(target_vector)
+        target_vector = target_npvector.reshape(target_npvector.size, 1)
+
+        output_vector_hidden = activation_function(
+                self.weights_in_hidden @ input_vector)
+        output_vector_network = activation_function(
+                self.weights_hidden_out @ output_vector_hidden)
+
+        output_error = target_vector - output_vector_network
+        tmp = output_error * output_vector_network \
+            * (1.0 - output_vector_network)
+        self.weights_hidden_out += self.learning_rate \
+            * (tmp @ output_vector_hidden.T)
 
     def run(self, input_vector):
         """

@@ -48,6 +48,7 @@ plt.ylabel(r"Posterior Distribution $P(\theta |\mu)$")
 plt.xlabel(r"Wavelength $\omega_1$")
 plt.ylim(0, 1)
 plt.legend()
+plt.savefig('Figures/NN_OutputA.png', dpi=600, bbox_inches='tight')
 plt.show()
 
 

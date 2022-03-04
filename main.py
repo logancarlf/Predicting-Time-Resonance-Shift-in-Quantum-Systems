@@ -97,6 +97,7 @@ class System:
         plt.xlabel(r"Perturbation Frequency $\omega$ / $s^{-1}$")
         plt.ylabel(r"Maximum Excitation Probability $P_{max}$")
         plt.grid()
+        plt.savefig('Figures/Res_Curve.png', dpi=600, bbox_inches='tight')
         plt.show()
 
     def theoretical(self, N):
@@ -114,6 +115,7 @@ class System:
         plt.ylabel(r"Posterior Distribution $P(\theta |\mu)$")
         plt.xlabel(r"Wavelength $\omega_1$")
         plt.legend()
+        plt.savefig('Figures/NN_TrainA.png', dpi=600, bbox_inches='tight')
         plt.show()
         return prob
 
@@ -139,8 +141,8 @@ class System:
         plt.ylabel(r"Measurement Frequency")
         plt.xlabel(r"Wavelength $\omega_1$")
         plt.legend()
+        plt.savefig('Figures/NN_MeasureA.png', dpi=600, bbox_inches='tight')
         plt.show()
-
         return excitation_frequencies
 
     def resonance_mean(self):

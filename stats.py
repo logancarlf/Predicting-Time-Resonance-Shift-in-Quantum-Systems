@@ -38,8 +38,8 @@ def lorentzian(x,a, x_0, gamma):
     
     return (a * (1/np.pi) * (0.5*gamma))/((x-x_0)**2 + (0.5*gamma)**2)
 
-def lorentz(x, a, x_0, gamma):
-    return a/(1 + ((x-x_0)/gamma)**2)
+#def lorentz(x, a, x_0, gamma):
+#   return a/(1 + ((x-x_0)/gamma)**2)
 
 #%%
 df_omegadist = pd.read_csv('C:\Imperial\Bsc\data\omega_dist_data\data1.txt', sep = ' ', header = None)

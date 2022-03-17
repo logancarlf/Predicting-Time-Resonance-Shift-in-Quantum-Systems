@@ -18,6 +18,7 @@ import shutil
 
 def data_move():
     
+    #changing path source so others can use
     source = os.path.dirname(os.path.realpath('stats.py'))
     data_dest = r'C:\Imperial\Bsc\data\omega_dist_data'
     #data_source = source

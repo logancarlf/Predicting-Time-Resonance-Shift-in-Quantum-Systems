@@ -2,6 +2,7 @@ import constant as const
 import scipy.integrate as sp
 import matplotlib.pyplot as plt
 import numpy as np
+import shutil
 
 
 class System:
@@ -98,7 +99,12 @@ class System:
         plt.ylabel(r"Maximum Excitation Probability $P_{max}$")
         plt.grid()
         plt.show()
-
+        
+        #Saving data in txt file
+        omega_excitep = np.column_stack((omega_array, excite_p))
+        omega_excitep1 = np.savetxt('data1.txt', omega_excitep)
+        
+        
     def theoretical(self, N):
         dev = 10
         mu, sigma = self.__omega0, self.__omega1

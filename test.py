@@ -2,6 +2,7 @@ from main import System
 from neural_network import Network
 import numpy as np
 
+
 B0 = 10  # Tesla
 B1 = 1e-5  # Tesla
 m = 9.11e-31  # kg
@@ -40,6 +41,9 @@ output = NeuralNet.run(measure)
 output_np = np.array(output)
 output = output_np.T[0]
 width = theta_grid[1] - theta_grid[0]
+
+#moves data
+data_move()
 
 plt.plot(theta_grid, output, ls='steps', color='black',
          label=r'Output Nodes $\theta_j$')

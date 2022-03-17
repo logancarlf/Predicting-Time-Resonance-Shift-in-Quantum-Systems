@@ -1,6 +1,8 @@
 from system import System
 from neural_network import Network
 import matplotlib.pyplot as plt
+from function import lorentzian
+from scipy.optimize import curve_fit
 import numpy as np
 
 class Experiment:
@@ -44,12 +46,17 @@ class Experiment:
                     count += 1
             # Normalise the data
             self.__data.append(count/self.__m)
-        x, theory = self.__system.theoretical(10000)
-        plt.plot(x, theory, color='black')
+#        x, theory = self.__system.theoretical(self.__theta_j)
+#        plt.plot(x, theory, color='black')
+        fit, cov = curve_fit(lorentzian, self.__theta_j, self.__data)
+        self.__mean = fit[1]
+        self.__std = np.sqrt(cov[1][1])
+        x = np.linspace(self.__theta_j[0], self.__theta_j[-1], 1000)
+        plt.plot(x, lorentzian(x, *fit), color='black', linestyle='dashed')
         plt.scatter(self.__theta_j, self.__data, color='red', marker='x')
         plt.title("Neural Network Input (Measurement)")
         plt.ylabel(r"Measurement Frequency")
-        plt.xlabel(r"Wavelength $\omega_1$")
+        plt.xlabel(r"Wavelength $\omega/\omega_0$")
         plt.legend()
         plt.savefig('Figures/NN_MeasureB.png', dpi=600, bbox_inches='tight')
         plt.show()

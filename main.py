@@ -1,20 +1,15 @@
 from function import DFS
-from system import System
+from system_v2 import System
 from experiment import Experiment
 from neural_network import Network
 import numpy as np
 import matplotlib.pyplot as plt
 
-B0 = 10  # Tesla
-B1 = 1e-5  # Tesla
-m = 9.11e-31  # kg
-g_factor = 2
-alpha0 = 1
-beta0 = 0
+Omega = 10
 
 M = 100
-mu = 1758701025246.9812
-std = 1758701.0252469813
+mu = 1
+std = 0.1
 devs = 10
 J = 31
 
@@ -22,6 +17,6 @@ J = 31
 theta_j = DFS(mu, std, devs, J)
 
 # Initiate Simulation and Experiment
-qBit = System(B0, B1, m, g_factor, alpha0, beta0)
+qBit = System(Omega)
 Bayesian_Estimation = Experiment(M, theta_j, qBit)
 Bayesian_Estimation.run(4, 0.6)

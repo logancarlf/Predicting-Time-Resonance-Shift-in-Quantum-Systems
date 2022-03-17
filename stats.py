@@ -31,7 +31,7 @@ def data_move():
 #     return a / ((x-x0)**2 + a**2) / np.pi
 # =============================================================================
 
-def lorentzian(x,a, x_0, gamma):
+def lorentzian(x, a, x_0, gamma):
 
     return (a * (1/np.pi) * (0.5*gamma))/((x-x_0)**2 + (0.5*gamma)**2)
 

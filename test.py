@@ -12,7 +12,11 @@ beta0 = 0
 
 devs = 10
 
-QBit = System(B0, B1, m, g_factor, alpha0, beta0)
+QBit = System(B0, B1, m, g_factor, alpha0, beta0, 2)
+QBit.theoretical_2()
+
+#%%
+
 QBit.omega_distribution()
 print(QBit.resonance_mean())
 print(QBit.resonance_std())

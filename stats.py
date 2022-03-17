@@ -18,7 +18,9 @@ import shutil
 
 def data_move():
     
+    source = os.path.dirname(os.path.realpath('stats.py'))
     data_dest = r'C:\Imperial\Bsc\data\omega_dist_data'
+    #data_source = source
     data_source = r'C:\Users\PSClo\OneDrive\Miscallaneous\Documents\Imperial_physics\Bsc_project\Predicting-Time-Resonance-Shift-in-Quantum-Systems\data1.txt'
     shutil.copy(data_source, data_dest)
     os.remove(r'C:\Users\PSClo\OneDrive\Miscallaneous\Documents\Imperial_physics\Bsc_project\Predicting-Time-Resonance-Shift-in-Quantum-Systems\data1.txt')
@@ -35,7 +37,8 @@ def lorentzian(x,a, x_0, gamma):
     
     return (a * (1/np.pi) * (0.5*gamma))/((x-x_0)**2 + (0.5*gamma)**2)
 
-
+def lorentz(x, a, x_0, gamma):
+    return a/(1 + ((x-x_0)/gamma)**2)
 
 #%%
 df_omegadist = pd.read_csv('C:\Imperial\Bsc\data\omega_dist_data\data1.txt', sep = ' ', header = None)

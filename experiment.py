@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from function import lorentzian
 from scipy.optimize import curve_fit
 import numpy as np
+from stats import gaussian
 
 class Experiment:
 
@@ -34,6 +35,7 @@ class Experiment:
         Returns array of change of state data for frequencies theta_j
         """
         self.__data = list()
+        
         # loop through frequencies
         for w in self.__theta_j:
             count = 0
@@ -51,7 +53,10 @@ class Experiment:
         fit, cov = curve_fit(lorentzian, self.__theta_j, self.__data)
         self.__mean = fit[1]
         self.__std = np.sqrt(cov[1][1])
+        
         x = np.linspace(self.__theta_j[0], self.__theta_j[-1], 1000)
+        print(cov, fit)
+        #plt.plot(x, gaussian(x, 1, fit[1], self.__std))
         plt.plot(x, lorentzian(x, *fit), color='black', linestyle='dashed')
         plt.scatter(self.__theta_j, self.__data, color='red', marker='x')
         plt.title("Neural Network Input (Measurement)")

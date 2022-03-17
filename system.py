@@ -65,42 +65,42 @@ class System:
 #
 #        return alpha, beta
 #
-#    def excitation_probability(self, omega):
-#        '''
-#        Calculates the maximum probability of changing the state of the system
-#        for a given perturbation frequency omega
-#        '''
-#        # Define resonance factor as fn/fd
-#        fn = np.sqrt(self.__omega1**2)
-#        fd = np.sqrt((omega - self.__omega0)**2 + self.__omega1**2)
-#        # excitation probability is square of resonance factor
-#        return (fn/fd) ** 2
-#
-#    def omega_distribution(self):
-#        '''
-#        Calculates the values of the maximum excitation energy for a set of
-#        perturbation frequencies and plots the resonance curve
-#        '''
-#        # Number of stds on either side of the mean
-#        dev = 10
-#        # Set distribution parameters
-#        mu, sigma = self.__omega0, self.__omega1
-#        # Get array of omega values
-#        omega_array = np.arange(mu - dev * sigma, mu + dev * sigma, sigma/1000)
-#        # Get values of the max excitation probability
-#        excite_p = list()
-#        for omega in omega_array:
-#            P_omega = self.excitation_probability(omega)
-#            excite_p.append(P_omega)
-#        # Plot resonance curve
-#        plt.plot(omega_array, excite_p,color='black')
-#        plt.title("Resonance Curve")
-#        # Axis Labels
-#        plt.xlabel(r"Perturbation Frequency $\omega$ / $s^{-1}$")
-#        plt.ylabel(r"Maximum Excitation Probability $P_{max}$")
-#        plt.grid()
-#        plt.savefig('Figures/Res_Curve.png', dpi=600, bbox_inches='tight')
-#        plt.show()
+    def excitation_probability(self, omega):
+        '''
+        Calculates the maximum probability of changing the state of the system
+        for a given perturbation frequency omega
+        '''
+        # Define resonance factor as fn/fd
+        fn = np.sqrt(self.__omega1**2)
+        fd = np.sqrt((omega - self.__omega0)**2 + self.__omega1**2)
+        # excitation probability is square of resonance factor
+        return (fn/fd) ** 2
+
+    def omega_distribution(self):
+        '''
+        Calculates the values of the maximum excitation energy for a set of
+        perturbation frequencies and plots the resonance curve
+        '''
+        # Number of stds on either side of the mean
+        dev = 10
+        # Set distribution parameters
+        mu, sigma = self.__omega0, self.__omega1
+        # Get array of omega values
+        omega_array = np.arange(mu - dev * sigma, mu + dev * sigma, sigma/1000)
+        # Get values of the max excitation probability
+        excite_p = list()
+        for omega in omega_array:
+            P_omega = self.excitation_probability(omega)
+            excite_p.append(P_omega)
+        # Plot resonance curve
+        plt.plot(omega_array, excite_p,color='black')
+        plt.title("Resonance Curve")
+        # Axis Labels
+        plt.xlabel(r"Perturbation Frequency $\omega$ / $s^{-1}$")
+        plt.ylabel(r"Maximum Excitation Probability $P_{max}$")
+        plt.grid()
+        plt.savefig('Figures/Res_Curve.png', dpi=600, bbox_inches='tight')
+        plt.show()
 
     def excitation_prob_2(self, omega):
         '''

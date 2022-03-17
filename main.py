@@ -9,6 +9,7 @@ Omega = 10
 
 M = 100
 mu = 1
+
 std = 0.1
 devs = 10
 J = 31

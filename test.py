@@ -1,6 +1,7 @@
-from main import System
+from system import System
 from neural_network import Network
 import numpy as np
+import matplotlib.pyplot as plt
 
 B0 = 10  # Tesla
 B1 = 1e-5  # Tesla
@@ -13,6 +14,8 @@ devs = 10
 
 QBit = System(B0, B1, m, g_factor, alpha0, beta0)
 QBit.omega_distribution()
+print(QBit.resonance_mean())
+print(QBit.resonance_std())
 data = QBit.measurement(50)
 prob = QBit.theoretical(31)
 
@@ -33,7 +36,7 @@ NeuralNet = Network(no_of_in_nodes, no_of_out_nodes, no_of_hidden_nodes,
 # train
 for i in data:
     n_input = np.array([i])
-    NeuralNet.train(n_input, prob)
+    NeuralNet.train(n_input, prob[1])
 
 measure = QBit.measurement(1)
 output = NeuralNet.run(measure)

@@ -1,9 +1,6 @@
 from function import DFS
 from system_v2 import System
 from experiment import Experiment
-from neural_network import Network
-import numpy as np
-import matplotlib.pyplot as plt
 
 Omega = 10
 

@@ -1,5 +1,3 @@
-import function as const
-import scipy.integrate as sp
 import matplotlib.pyplot as plt
 import numpy as np
 

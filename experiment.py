@@ -1,9 +1,9 @@
-from system import System
 from neural_network import Network
 import matplotlib.pyplot as plt
 from function import lorentzian, gaussian
 from scipy.optimize import curve_fit
 import numpy as np
+
 
 class Experiment:
 
@@ -24,6 +24,9 @@ class Experiment:
 
         system: System Object
             The system that the resonance frequency is being measured.
+
+        plot: bool
+            Determines whether plots are plotted or not.
         """
         self.__m = m
         self.__plot = plot
@@ -59,10 +62,22 @@ class Experiment:
             plt.ylabel(r"Measurement Frequency")
             plt.xlabel(r"Wavelength $\omega/\omega_0$")
             plt.legend()
-            plt.savefig('Figures/AII_Sampled_Distribution.png', dpi=600, bbox_inches='tight')
+            plt.savefig('Figures/AII_Sampled_Distribution.png', dpi=600,
+                        bbox_inches='tight')
             plt.show()
 
     def run(self, no_of_hidden_nodes, learning_rate):
+        """
+        Runs the experiment to determine a stationary resonance frequency.
+
+        Parameters
+        ----------
+        no_of_hidden_nodes: int
+            number of nodes in hidden layer of the Neural Network.
+
+        learning_rate: float
+            rate at which the Neural Network learns from the training data.
+        """
         # Perform experiement (find training distribution)
         self.measurement()
         # Initialise Neural Net with 1 input and N ouput nodes
@@ -105,6 +120,7 @@ class Experiment:
 
         print("Lorentzian Result:", Lfit[1], "+/-", np.sqrt(Lcov[1][1]))
         print("Gaussian Result:", Gfit[1], "+/-", np.sqrt(Gcov[1][1]))
+        return Lfit[1], np.sqrt(Lcov[1][1])
 
 
 

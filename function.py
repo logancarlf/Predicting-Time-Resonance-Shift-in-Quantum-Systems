@@ -8,5 +8,9 @@ def DFS(mu, sigma, devs, N):
     return x
 
 
-def lorentzian(x, a, x_0, gamma):
-    return (a * (1/np.pi) * (0.5*gamma))/((x-x_0)**2 + (0.5*gamma)**2)
+def lorentzian(x, a, x_0, gamma, c):
+    return (a * (1/np.pi) * (0.5*gamma))/((x-x_0)**2 + (0.5*gamma)**2) + c
+
+
+def gaussian(x, a, x_0, sigma, c):
+    return a * np.exp(-(x-x_0)**2/(2*sigma**2)) + c

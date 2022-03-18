@@ -19,5 +19,5 @@ theta_j = DFS(mu, std, devs, J)
 
 # Initiate Simulation and Experiment
 qBit = System(Omega)
-Bayesian_Estimation = Experiment(M, theta_j, qBit)
+Bayesian_Estimation = Experiment(M, theta_j, qBit, plot=True)
 Bayesian_Estimation.run(4, 0.6)

@@ -1,8 +1,9 @@
 from neural_network import Network
 import matplotlib.pyplot as plt
-from function import lorentzian, gaussian
+from function import lorentzian, lorentzian2, gaussian
 from scipy.optimize import curve_fit
 import numpy as np
+import tqdm as tqdm
 
 
 class Experiment:
@@ -121,6 +122,85 @@ class Experiment:
         print("Lorentzian Result:", Lfit[1], "+/-", np.sqrt(Lcov[1][1]))
         print("Gaussian Result:", Gfit[1], "+/-", np.sqrt(Gcov[1][1]))
         return Lfit[1], np.sqrt(Lcov[1][1])
+
+
+class Experiment_Time:
+
+    def __init__(self, m, k, theta_j, system):
+        """
+        Experiment class sets up an experiment that determines the resonance
+        frequency of a two state system
+
+        Parameters
+        ----------
+        m: int
+            Number of measurements for a given frequency in the discretised
+            frequency space.
+
+        theta_j: array_like
+            A sequence of the frequencies to test that form the discretised
+            frequency space
+
+        system: System Object
+            The system that the resonance frequency is being measured.
+
+        plot: bool
+            Determines whether plots are plotted or not.
+        """
+        self.__m = m
+        self.__k = k
+        self.__system = system
+        self.__theta_j = theta_j
+
+    def measurement(self):
+
+        print("Sampling Data")
+        self.__data = list()
+
+        for k in range(self.__k):
+            data_k = list()
+            # loop through frequencies
+            for w in self.__theta_j:
+                count = 0
+                # Find probability of excitation
+                prob = self.__system.excitation_probability(w, k)
+                # Test whether state is changed
+                for i in range(self.__m):
+                    r = np.random.uniform(0, 1)
+                    if r < prob:
+                        count += 1
+                # Normalise the data
+                data_k.append(count/self.__m)
+            self.__data.append(data_k)
+
+    def run_sim(self, no_of_hidden_nodes, learning_rate):
+
+        self.measurement()
+        # Initialise Neural Network
+        print("Training Neural Network")
+        self.__NeuralNet = Network(2, len(self.__theta_j), no_of_hidden_nodes,
+                            learning_rate)
+        print("Generating Theoretical")
+        for i in range(self.__k):
+            prob = self.__system.theoretical(self.__theta_j, i, discrete=True,
+                                         plot=True)[1]
+            for j in self.__data[i]:
+                n_input = np.array([i, j])
+                self.__NeuralNet.train(n_input, prob)
+
+
+    def expectation_value(self, t, plot=False):
+
+        output = self.__NeuralNet.run([t, 1]).flatten()
+        fit, cov = curve_fit(lorentzian, self.__theta_j, output)
+        x = np.linspace(self.__theta_j[0], self.__theta_j[-1], 1000)
+        if plot is True:
+            plt.plot(x, lorentzian(x, *fit))
+            plt.plot(self.__theta_j, output, ls='steps-mid', color='black',
+                         label=r'Output Nodes $\theta_j$')
+            plt.show()
+        print(fit[1], np.sqrt(cov[1][1]))
+        return fit[1], np.sqrt(cov[1][1])
 
 
 
